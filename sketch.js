@@ -13,8 +13,8 @@ const PALETTE = {
   shore: [7, 9, 14],
   pine: [5, 7, 11],
   moon: [244, 237, 216],
-  waterFar: [16, 36, 62],
-  waterNear: [5, 11, 22],
+  waterFar: [24, 52, 86],
+  waterNear: [8, 20, 40],
   lantern: [255, 186, 96],
 };
 
@@ -292,25 +292,28 @@ function drawMoonReflection() {
     if (n < 0.32) continue;
     const wobble = (noise(y * 0.035, time * 1.3) - 0.5) * lerp(8, 46, depth);
     const half = lerp(16, 3, depth) * (0.35 + n) * max(unit(), 0.8);
-    stroke(230, 226, 206, lerp(100, 16, depth) * n);
+    stroke(236, 232, 214, lerp(140, 28, depth) * n);
     const x = x0 + wobble;
     line(x - half, y, x + half, y);
   }
   noStroke();
 }
 
+function boatScale() {
+  return unit() * 1.22;
+}
+
 function boatPos() {
-  const s = unit();
-  const bob = sin(frameCount * 0.028) * 2.4 * s;
+  const bob = sin(frameCount * 0.028) * 2.6 * boatScale();
   return {
-    x: width * 0.58,
-    y: height * 0.75 + bob,
+    x: width * 0.57,
+    y: height * 0.73 + bob,
   };
 }
 
 function drawBoatReflection() {
   const p = boatPos();
-  const s = unit();
+  const s = boatScale();
   const y0 = p.y + 16 * s;
   // 暖色的灯影，和右边那道冷月光分开
   strokeWeight(max(1.5, 2 * s));
@@ -320,8 +323,8 @@ function drawBoatReflection() {
     const y = y0 + i * 8 * s;
     const half = (18 - i * 1.4) * s * (0.4 + n * 0.6);
     const wobble = (n - 0.5) * 12 * s;
-    stroke(255, 176, 96, 70 - i * 6);
-    line(p.x + 28 * s + wobble - half, y, p.x + 28 * s + wobble + half, y);
+    stroke(255, 176, 96, 80 - i * 6);
+    line(p.x + 46 * s + wobble - half, y, p.x + 46 * s + wobble + half, y);
   }
 
   // 船身的倒影只留一个淡淡的深色弧
@@ -422,7 +425,7 @@ function drawCabin() {
 
 function drawBoat() {
   const p = boatPos();
-  const s = unit();
+  const s = boatScale();
   push();
   translate(p.x, p.y);
   scale(s);
@@ -438,41 +441,45 @@ function drawBoat() {
   endShape(CLOSE);
 
   // 船舷上的一条亮边，船才不会糊成一团黑
-  stroke(58, 48, 46);
+  stroke(120, 104, 96);
   strokeWeight(1.5);
-  line(-38, -12, 42, -12);
+  line(-38, -12, 52, -11);
 
   stroke(32, 26, 28);
   strokeWeight(1.6);
   line(4, -12, 6, -64);
 
+  // 帆被月亮照亮，所以比夜空和湖水都浅，船才看得清
   noStroke();
-  fill(36, 42, 58);
-  triangle(8, -60, 8, -16, 34, -18);
+  fill(206, 214, 226);
+  triangle(8, -60, 8, -16, 38, -18);
+  stroke(160, 172, 188);
+  strokeWeight(1);
+  line(8, -58, 38, -18);
 
   // 坐着的人，只是一个小剪影
-  fill(12, 10, 12);
-  circle(-8, -20, 8);
-  rect(-12, -16, 9, 10, 2);
+  noStroke();
+  fill(16, 14, 16);
+  circle(-12, -22, 8);
+  rect(-16, -18, 9, 11, 2);
 
   // 船头的灯
-  noStroke();
-  fill(255, 188, 110, 36);
-  circle(30, -14, 26);
+  fill(255, 188, 110, 40);
+  circle(46, -14, 28);
   fill(ink(PALETTE.lantern));
-  circle(30, -14, 6);
+  circle(46, -14, 6.5);
   pop();
 }
 
 function drawReeds() {
   // 近处的芦苇，说明观景的人站在岸边
   const s = unit();
-  stroke(9, 12, 14);
-  strokeWeight(max(1, 1.15 * s));
+  stroke(18, 26, 30);
+  strokeWeight(max(1, 1.25 * s));
   const n = floor(16 * max(s, 0.85));
   for (let i = 0; i < n; i++) {
     const x = width * 0.015 + i * 15 * s;
-    const h = (40 + noise(i * 0.37, 4) * 78) * s;
+    const h = (56 + noise(i * 0.37, 4) * 96) * s;
     const lean = (noise(i * 0.6, 2) - 0.42) * 20 * s;
     const y = height + 2;
     line(x, y, x + lean, y - h);
