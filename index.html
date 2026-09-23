@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>夜湖 · p5.js</title>
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: #05070e;
+      overflow: hidden;
+    }
+
+    canvas {
+      display: block;
+    }
+
+    #hint {
+      position: absolute;
+      z-index: 2;
+      margin: 0;
+      padding: 18px 22px;
+      color: #c9d0e4;
+      font-family: "Source Han Sans SC", "Noto Sans SC", "PingFang SC", sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.3/lib/p5.min.js"></script>
+</head>
+<body>
+  <p id="hint">正在铺开夜湖…如果一直空白，请联网后再打开（p5.js 从 CDN 加载）。</p>
+  <script src="sketch.js"></script>
+</body>
+</html>
